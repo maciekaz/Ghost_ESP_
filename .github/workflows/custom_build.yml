@@ -209,7 +209,7 @@ jobs:
           cd ..
 
       - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ghost_esp_${{ github.event.inputs.board_type }}_${{ github.event.inputs.display_type }}
           path: ghost_esp_${{ github.event.inputs.board_type }}_${{ github.event.inputs.display_type }}.zip
@@ -223,13 +223,4 @@ jobs:
           if [ "${{ github.event.inputs.display_type }}" == "custom" ]; then
             echo "- **Screen Resolution:** ${{ github.event.inputs.screen_width }}x${{ github.event.inputs.screen_height }}" >> $GITHUB_STEP_SUMMARY
           fi
-          echo "- **Touch Support:** $(
-            if [ "${{ github.event.inputs.use_touch }}" == "true" ] || \
-               [ "${{ github.event.inputs.display_type }}" == "ESP32-S3-Cardputer" ] || \
-               [ "${{ github.event.inputs.display_type }}" == "LillyGoTWatch_S3" ] || \
-               [[ "${{ github.event.inputs.display_type }}" == CYD* ]]; then
-              echo "Yes"
-            else
-              echo "No"
-            fi
-          )" >> $GITHUB_STEP_SUMMARY
+          echo "- **Touch Support:** $(if [ "${{ github.event.inputs.use_touch }}" == "true" ] || [ "${{ github.event.inputs.display_type }}" == "ESP32-S3-Cardputer" ] || [ "${{ github.event.inputs.display_type }}" == "LillyGoTWatch_S3" ] || [[ "${{ github.event.inputs.display_type }}" == CYD* ]]; then echo "Yes"; else echo "No"; fi)" >> $GITHUB_STEP_SUMMARY
